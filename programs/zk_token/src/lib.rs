@@ -13,7 +13,7 @@ pub mod zk_token {
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let config = &mut ctx.accounts.config;
         config.admin = ctx.accounts.signer.key();
-        config.bump = ctx.bumps.config;
+        config.bump = *ctx.bumps.get("config").unwrap();
         config.mint_count = 0;
         Ok(())
     }
