@@ -2,7 +2,7 @@
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" -c",
-    "demo": "anchor test --skip-deploy --skip-build --svg-export docs/demo.svg tests/demo.ts"
+    "demo": "anchor test --skip-deploy --skip-build tests/demo.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",
