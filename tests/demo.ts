@@ -24,7 +24,29 @@ describe("zk_token demo", () => {
     const provider = anchor.AnchorProvider.env();
     anchor.setProvider(provider);
 
-    const program = anchor.workspace.ZkToken as any;
+    // const program = anchor.workspace.ZkToken as any;
+    const programId = new anchor.web3.PublicKey("7o3hKkBugQQ5duPBRSzU1KZshKTK1o3ob3jwLSBPa65c");
+
+    // Create a dummy IDL or use 'any' to construct program manually
+    // We use a minimal IDL structure so Anchor doesn't crash
+    const idl = {
+        version: "0.1.0",
+        name: "zk_token",
+        instructions: [
+            { "name": "initialize", "accounts": [{ "name": "signer", "isMut": true, "isSigner": true }, { "name": "config", "isMut": true, "isSigner": false }, { "name": "systemProgram", "isMut": false, "isSigner": false }], "args": [] },
+            { "name": "createTokenMint", "accounts": [{ "name": "signer", "isMut": true, "isSigner": true }, { "name": "mint", "isMut": true, "isSigner": false }, { "name": "config", "isMut": true, "isSigner": false }, { "name": "tokenProgram", "isMut": false, "isSigner": false }, { "name": "systemProgram", "isMut": false, "isSigner": false }, { "name": "rent", "isMut": false, "isSigner": false }], "args": [] },
+            { "name": "mintToken", "accounts": [{ "name": "signer", "isMut": true, "isSigner": true }, { "name": "config", "isMut": true, "isSigner": false }, { "name": "mint", "isMut": true, "isSigner": false }, { "name": "userTokenAccount", "isMut": true, "isSigner": false }, { "name": "mintRecord", "isMut": true, "isSigner": false }, { "name": "tokenProgram", "isMut": false, "isSigner": false }, { "name": "associatedTokenProgram", "isMut": false, "isSigner": false }, { "name": "systemProgram", "isMut": false, "isSigner": false }], "args": [{ "name": "amount", "type": "u64" }, { "name": "mintIndex", "type": "u64" }] }
+        ],
+        accounts: [
+            { "name": "TokenConfig", "type": { "kind": "struct", "fields": [{ "name": "admin", "type": "publicKey" }, { "name": "bump", "type": "u8" }, { "name": "mintCount", "type": "u64" }] } },
+            { "name": "MintRecord", "type": { "kind": "struct", "fields": [{ "name": "minter", "type": "publicKey" }, { "name": "amount", "type": "u64" }, { "name": "timestamp", "type": "i64" }, { "name": "mintIndex", "type": "u64" }] } }
+        ],
+        metadata: {
+            address: "7o3hKkBugQQ5duPBRSzU1KZshKTK1o3ob3jwLSBPa65c"
+        }
+    };
+
+    const program: any = new anchor.Program(idl as any, provider);
     const payer = provider.wallet;
 
     let configPda: anchor.web3.PublicKey;
